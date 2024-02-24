@@ -10,7 +10,6 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-// TODO может убрать билдер?
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "answers")
 public class Answer {

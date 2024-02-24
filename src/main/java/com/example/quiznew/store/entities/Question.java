@@ -13,7 +13,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-// TODO может убрать?
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "questions")
 public class Question {
@@ -26,8 +25,14 @@ public class Question {
     @Column(unique = true)
     String questionText;
 
+    @Enumerated(EnumType.STRING)
+    // Хранит enum в виде строки
+    private Categories categories;
+
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "question_id")
     List<Answer> answersList = new ArrayList<>();
+
+
 
 }

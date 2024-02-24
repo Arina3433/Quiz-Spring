@@ -52,7 +52,7 @@ public class AnswerServiceImpl implements AnswerService {
         Answer answer = answerRepository.saveAndFlush(
                 Answer.builder()
                         .answerText(answerText)
-                        .isCorrect(optionalIsCorrect.map(optional -> optional.booleanValue()).orElse(false))
+                        .isCorrect(optionalIsCorrect.orElse(false))
                         .question(question)
                         .build()
         );
