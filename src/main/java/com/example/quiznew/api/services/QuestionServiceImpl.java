@@ -3,6 +3,7 @@ package com.example.quiznew.api.services;
 import com.example.quiznew.api.converters.QuestionConverter;
 import com.example.quiznew.api.dtos.QuestionDto;
 import com.example.quiznew.api.exceptions.BadRequestException;
+import com.example.quiznew.api.exceptions.NotFoundException;
 import com.example.quiznew.api.services.helpers.ServiceHelper;
 import com.example.quiznew.store.entities.Categories;
 import com.example.quiznew.store.entities.Question;
@@ -114,8 +115,6 @@ public class QuestionServiceImpl implements QuestionService {
         return questionConverter.convertToQuestionDto(question);
     }
 
-
-    //TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!
     @Transactional
     @Override
     public List<QuestionDto> getAllQuestions(Optional<String> optionalQuestionCategory) {
@@ -124,8 +123,27 @@ public class QuestionServiceImpl implements QuestionService {
                 .getStringOrEmptyAndCheckIfCategoryExistsOrElseThrow(optionalQuestionCategory);
 
         List<Question> questionList = optionalQuestionCategory
-                .map(questionRepository::findAllByCategories)
-                .orElseGet(questionRepository::findAllBy);
+                .map(questionCategory ->
+                        questionRepository
+                                .findAllByCategories(Categories.valueOf(questionCategory.toUpperCase()))
+                                .filter(list -> !list.isEmpty())
+                                .orElseThrow(() -> new NotFoundException(
+                                                String.format(
+                                                        "Questions from the category %s weren't found.",
+                                                        questionCategory
+                                                )
+                                        )
+                                )
+                )
+                .orElseGet(() ->
+                        questionRepository
+                                .findAllBy()
+                                .filter(list -> !list.isEmpty())
+                                .orElseThrow(() -> new NotFoundException(
+                                                "Questions weren't found."
+                                        )
+                                )
+                );
 
         return questionConverter.convertToQuestionDtoList(questionList);
     }
@@ -133,6 +151,8 @@ public class QuestionServiceImpl implements QuestionService {
     @Transactional
     @Override
     public String deleteQuestionById(Long questionId) {
+
+        serviceHelper.getQuestionByIdOrElseThrow(questionId);
 
         questionRepository.deleteById(questionId);
 

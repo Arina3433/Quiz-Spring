@@ -13,10 +13,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @RequiredArgsConstructor
@@ -51,23 +48,24 @@ public class ServiceHelper {
     @Transactional
     public Optional<String> getStringOrEmptyAndCheckIfCategoryExistsOrElseThrow(
             Optional<String> optionalQuestionCategory) {
+
         optionalQuestionCategory = optionalQuestionCategory.filter(questionCategory -> !questionCategory.isBlank());
 
         optionalQuestionCategory.ifPresent(questionCategory ->
-                {
-                    Stream.of(Categories.values())
-                            .map(categories -> categories.toString())
-                            .filter(category -> category.equalsIgnoreCase(questionCategory))
-                            .findAny()
-                            .orElseThrow(() -> new BadRequestException(
-                                            String.format(
-                                                    "The category of questions %s wasn't found.",
-                                                    questionCategory)
-                                    )
-                            );
-                }
+                Stream.of(Categories.values())
+                        .map(Categories::toString)
+                        .filter(category -> category.equalsIgnoreCase(questionCategory))
+                        .findAny()
+                        .orElseThrow(() -> new BadRequestException(
+                                        String.format(
+                                                "The category of questions %s wasn't found.",
+                                                questionCategory)
+                                )
+                        )
         );
+
         return optionalQuestionCategory;
+
     }
 
 }

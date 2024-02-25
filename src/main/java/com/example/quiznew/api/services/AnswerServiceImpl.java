@@ -7,6 +7,7 @@ import com.example.quiznew.api.services.helpers.ServiceHelper;
 import com.example.quiznew.store.entities.Answer;
 import com.example.quiznew.store.entities.Question;
 import com.example.quiznew.store.repositories.AnswerRepository;
+import jakarta.transaction.Transactional;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -27,6 +28,7 @@ public class AnswerServiceImpl implements AnswerService {
     ServiceHelper serviceHelper;
 
     @Override
+    @Transactional
     public AnswerDto createAnswer(Long questionId,
                                   String answerText,
                                   Optional<Boolean> optionalIsCorrect) {
@@ -61,6 +63,7 @@ public class AnswerServiceImpl implements AnswerService {
     }
 
     @Override
+    @Transactional
     public AnswerDto editAnswerById(Long answerId,
                                     Optional<String> optionalAnswerText,
                                     Optional<Boolean> optionalIsCorrect) {
@@ -87,13 +90,16 @@ public class AnswerServiceImpl implements AnswerService {
 
         optionalIsCorrect.ifPresent(answer::setIsCorrect);
 
-        final Answer savedAnswer = answerRepository.saveAndFlush(answer);
+        final Answer editedAnswer = answerRepository.saveAndFlush(answer);
 
-        return answerConverter.convertToAnswerDto(savedAnswer);
+        return answerConverter.convertToAnswerDto(editedAnswer);
     }
 
     @Override
+    @Transactional
     public String deleteAnswerById(Long answerId) {
+
+        serviceHelper.getAnswerByIdOrElseThrow(answerId);
 
         answerRepository.deleteById(answerId);
 
@@ -101,6 +107,7 @@ public class AnswerServiceImpl implements AnswerService {
     }
 
     @Override
+    @Transactional
     public String deleteAllAnswersByQuestionId(Long questionId) {
 
         answerRepository.deleteAllByQuestionId(questionId);

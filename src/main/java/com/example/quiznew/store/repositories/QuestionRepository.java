@@ -1,5 +1,6 @@
 package com.example.quiznew.store.repositories;
 
+import com.example.quiznew.store.entities.Categories;
 import com.example.quiznew.store.entities.Question;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -10,7 +11,8 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
 
     Optional<Question> findByQuestionText(String questionText);
 
-    List<Question> findAllBy();
-    List<Question> findAllByCategories(String categories);
+    Optional<List<Question>> findAllBy();
+
+    Optional<List<Question>> findAllByCategories(Categories categories);
 
 }
