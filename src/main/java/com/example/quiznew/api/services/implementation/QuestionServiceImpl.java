@@ -1,9 +1,10 @@
-package com.example.quiznew.api.services;
+package com.example.quiznew.api.services.implementation;
 
 import com.example.quiznew.api.converters.QuestionConverter;
 import com.example.quiznew.api.dtos.QuestionDto;
 import com.example.quiznew.api.exceptions.BadRequestException;
 import com.example.quiznew.api.exceptions.NotFoundException;
+import com.example.quiznew.api.services.QuestionService;
 import com.example.quiznew.api.services.helpers.ServiceHelper;
 import com.example.quiznew.store.entities.Categories;
 import com.example.quiznew.store.entities.Question;

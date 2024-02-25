@@ -1,7 +1,7 @@
 package com.example.quiznew.api.controllers;
 
 import com.example.quiznew.api.dtos.AnswerDto;
-import com.example.quiznew.api.services.AnswerServiceImpl;
+import com.example.quiznew.api.services.implementation.AnswerServiceImpl;
 import jakarta.transaction.Transactional;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;

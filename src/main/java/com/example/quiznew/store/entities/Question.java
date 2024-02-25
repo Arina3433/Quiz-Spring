@@ -32,7 +32,9 @@ public class Question {
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "question_id")
     List<Answer> answersList = new ArrayList<>();
+    // Владелец связи
 
-
+    @ManyToMany(mappedBy = "questionsInQuizList")
+    List<Quiz> quizzesList = new ArrayList<>();
 
 }

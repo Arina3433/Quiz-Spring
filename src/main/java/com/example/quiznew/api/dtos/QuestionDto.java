@@ -30,4 +30,8 @@ public class QuestionDto {
     @JsonProperty("answers")
     List<AnswerDto> answersList = new ArrayList<>();
 
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    @JsonProperty("quizzes_id")
+    List<Integer> quizzesListId = new ArrayList<>();
+
 }
