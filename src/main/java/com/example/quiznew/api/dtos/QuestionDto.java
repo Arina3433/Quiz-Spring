@@ -32,6 +32,6 @@ public class QuestionDto {
 
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     @JsonProperty("quizzes_id")
-    List<Integer> quizzesListId = new ArrayList<>();
+    List<Long> quizzesIdList = new ArrayList<>();
 
 }

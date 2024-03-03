@@ -49,7 +49,7 @@ public class QuestionServiceImpl implements QuestionService {
                 });
 
         optionalQuestionCategory = serviceHelper
-                .getStringOrEmptyAndCheckIfCategoryExistsOrElseThrow(optionalQuestionCategory);
+                .checkIfCategoryExistsOrElseThrow(optionalQuestionCategory);
 
 
         Question question = questionRepository.saveAndFlush(
@@ -61,7 +61,6 @@ public class QuestionServiceImpl implements QuestionService {
 
         return questionConverter.convertToQuestionDto(question);
     }
-
 
     @Transactional
     @Override
@@ -79,7 +78,8 @@ public class QuestionServiceImpl implements QuestionService {
 
         optionalQuestionText.ifPresent(
                 questionText -> {
-                    questionRepository.findByQuestionText(questionText)
+                    questionRepository
+                            .findByQuestionText(questionText)
                             .filter(anotherQuestion -> !Objects.equals(anotherQuestion.getId(), questionId))
                             .ifPresent(anotherQuestion -> {
                                 throw new BadRequestException(
@@ -96,7 +96,7 @@ public class QuestionServiceImpl implements QuestionService {
 
 
         optionalQuestionCategory = serviceHelper
-                .getStringOrEmptyAndCheckIfCategoryExistsOrElseThrow(optionalQuestionCategory);
+                .checkIfCategoryExistsOrElseThrow(optionalQuestionCategory);
 
         optionalQuestionCategory.ifPresent(questionCategory ->
                 question.setCategories(Categories.valueOf(questionCategory.toUpperCase()))
@@ -121,7 +121,7 @@ public class QuestionServiceImpl implements QuestionService {
     public List<QuestionDto> getAllQuestions(Optional<String> optionalQuestionCategory) {
 
         optionalQuestionCategory = serviceHelper
-                .getStringOrEmptyAndCheckIfCategoryExistsOrElseThrow(optionalQuestionCategory);
+                .checkIfCategoryExistsOrElseThrow(optionalQuestionCategory);
 
         List<Question> questionList = optionalQuestionCategory
                 .map(questionCategory ->
@@ -136,15 +136,13 @@ public class QuestionServiceImpl implements QuestionService {
                                         )
                                 )
                 )
-                .orElseGet(() ->
-                        questionRepository
-                                .findAllBy()
-                                .filter(list -> !list.isEmpty())
-                                .orElseThrow(() -> new NotFoundException(
-                                                "Questions weren't found."
-                                        )
-                                )
-                );
+                .orElseGet(() -> {
+                    List<Question> allQuestions = questionRepository.findAll();
+                    if (allQuestions.isEmpty()) {
+                        throw new NotFoundException("No questions found.");
+                    }
+                    return allQuestions;
+                });
 
         return questionConverter.convertToQuestionDtoList(questionList);
     }

@@ -34,7 +34,7 @@ public class Question {
     List<Answer> answersList = new ArrayList<>();
     // Владелец связи
 
-    @ManyToMany(mappedBy = "questionsInQuizList")
+    @ManyToMany(cascade = CascadeType.REFRESH, mappedBy = "questionsInQuizList")
     List<Quiz> quizzesList = new ArrayList<>();
 
 }
