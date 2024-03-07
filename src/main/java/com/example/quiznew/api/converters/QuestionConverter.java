@@ -5,6 +5,7 @@ import com.example.quiznew.store.entities.Question;
 import com.example.quiznew.store.entities.Quiz;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.Conditions;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 
@@ -44,7 +45,12 @@ public class QuestionConverter {
     @PostConstruct
     public void setupMapper() {
 
-        modelMapper.createTypeMap(Question.class, QuestionDto.class)
+        modelMapper
+                .getConfiguration()
+                .setPropertyCondition(Conditions.isNotNull());
+
+        modelMapper
+                .createTypeMap(Question.class, QuestionDto.class)
                 .addMappings(map -> map
                         .using(quizListToQuizIdListConverter)
                         .map(
