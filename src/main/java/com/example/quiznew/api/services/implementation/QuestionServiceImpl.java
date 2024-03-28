@@ -6,7 +6,7 @@ import com.example.quiznew.api.exceptions.BadRequestException;
 import com.example.quiznew.api.exceptions.NotFoundException;
 import com.example.quiznew.api.services.QuestionService;
 import com.example.quiznew.api.services.helpers.ServiceHelper;
-import com.example.quiznew.store.entities.Categories;
+import com.example.quiznew.store.entities.QuestionCategories;
 import com.example.quiznew.store.entities.Question;
 import com.example.quiznew.store.repositories.QuestionRepository;
 import jakarta.transaction.Transactional;
@@ -55,7 +55,7 @@ public class QuestionServiceImpl implements QuestionService {
         Question question = questionRepository.saveAndFlush(
                 Question.builder()
                         .questionText(questionText)
-                        .categories(Categories.valueOf(optionalQuestionCategory.orElse("common").toUpperCase()))
+                        .questionCategories(QuestionCategories.valueOf(optionalQuestionCategory.orElse("common").toUpperCase()))
                         .build()
         );
 
@@ -99,7 +99,7 @@ public class QuestionServiceImpl implements QuestionService {
                 .checkIfCategoryExistsOrElseThrow(optionalQuestionCategory);
 
         optionalQuestionCategory.ifPresent(questionCategory ->
-                question.setCategories(Categories.valueOf(questionCategory.toUpperCase()))
+                question.setQuestionCategories(QuestionCategories.valueOf(questionCategory.toUpperCase()))
         );
 
         final Question editedQuestion = questionRepository.saveAndFlush(question);
@@ -126,7 +126,7 @@ public class QuestionServiceImpl implements QuestionService {
         List<Question> questionList = optionalQuestionCategory
                 .map(questionCategory ->
                         questionRepository
-                                .findAllByCategories(Categories.valueOf(questionCategory.toUpperCase()))
+                                .findAllByQuestionCategories(QuestionCategories.valueOf(questionCategory.toUpperCase()))
                                 .filter(list -> !list.isEmpty())
                                 .orElseThrow(() -> new NotFoundException(
                                                 String.format(

@@ -2,7 +2,7 @@ package com.example.quiznew.store.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public enum Categories {
+public enum QuestionCategories {
 
     @JsonProperty("math")
     MATH,

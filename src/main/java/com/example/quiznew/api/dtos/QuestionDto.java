@@ -1,6 +1,6 @@
 package com.example.quiznew.api.dtos;
 
-import com.example.quiznew.store.entities.Categories;
+import com.example.quiznew.store.entities.QuestionCategories;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.EnumType;
@@ -24,7 +24,8 @@ public class QuestionDto {
     String questionText;
 
     @Enumerated(EnumType.STRING)
-    Categories categories;
+    @JsonProperty("question_category")
+    QuestionCategories questionCategories;
 
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     @JsonProperty("answers")

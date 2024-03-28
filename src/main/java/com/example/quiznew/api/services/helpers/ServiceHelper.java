@@ -3,7 +3,7 @@ package com.example.quiznew.api.services.helpers;
 import com.example.quiznew.api.exceptions.BadRequestException;
 import com.example.quiznew.api.exceptions.NotFoundException;
 import com.example.quiznew.store.entities.Answer;
-import com.example.quiznew.store.entities.Categories;
+import com.example.quiznew.store.entities.QuestionCategories;
 import com.example.quiznew.store.entities.Question;
 import com.example.quiznew.store.entities.Quiz;
 import com.example.quiznew.store.repositories.AnswerRepository;
@@ -93,8 +93,8 @@ public class ServiceHelper {
         optionalQuestionCategory = optionalQuestionCategory.filter(questionCategory -> !questionCategory.isBlank());
 
         optionalQuestionCategory.ifPresent(questionCategory ->
-                Stream.of(Categories.values())
-                        .map(Categories::toString)
+                Stream.of(QuestionCategories.values())
+                        .map(QuestionCategories::toString)
                         .filter(category -> category.equalsIgnoreCase(questionCategory))
                         .findAny()
                         .orElseThrow(() -> new BadRequestException(

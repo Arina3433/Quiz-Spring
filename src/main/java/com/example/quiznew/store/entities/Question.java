@@ -27,7 +27,7 @@ public class Question {
 
     @Enumerated(EnumType.STRING)
     // Хранит enum в виде строки
-    private Categories categories;
+    QuestionCategories questionCategories;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "question_id")
