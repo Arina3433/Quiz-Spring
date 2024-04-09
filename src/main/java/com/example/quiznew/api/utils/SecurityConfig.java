@@ -38,8 +38,8 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
                         request -> request
-                                .requestMatchers("quiz/auth/**").permitAll()
-                                .requestMatchers("quiz/app/teacher/**").hasAnyAuthority(UserRoles.TEACHER.name())
+                                .requestMatchers("/quiz/auth/**").permitAll()
+                                .requestMatchers("/quiz/app/teacher/**").hasAnyAuthority(UserRoles.TEACHER.name())
                 )
                 .sessionManagement(
                         manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS)

@@ -21,7 +21,7 @@ public class QuestionController {
 
     static final String CREATE_QUESTION = "/create";
     static final String EDIT_QUESTION_BY_ID = "/edit/{question_id}";
-    static final String GET_QUESTION_BY_ID = "get/{question_id}";
+    static final String GET_QUESTION_BY_ID = "/get/{question_id}";
     static final String GET_ALL_QUESTIONS_WITH_FILTER = "/get_all";
     static final String DELETE_QUESTION_BY_ID = "/delete/{question_id}";
     static final String DELETE_ALL_QUESTIONS = "/delete_all";
