@@ -9,13 +9,9 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UserDto {
+public class RefreshTokenRequestDto {
 
-    String username;
-
-    String password;
-
-    @JsonProperty("user_role")
-    String userRoles;
+    @JsonProperty("refresh_token")
+    String refreshToken;
 
 }

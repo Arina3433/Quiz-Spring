@@ -10,9 +10,9 @@ public enum UserRoles {
     @JsonProperty("teacher")
     TEACHER("teacher");
 
-    private String value;
+    private final String value;
 
-    private UserRoles(String value) {
+    UserRoles(String value) {
         this.value = value;
     }
 
@@ -30,5 +30,3 @@ public enum UserRoles {
     }
 
 }
-
-//    PriorityType low = PriorityType.fromString("lowpriority");

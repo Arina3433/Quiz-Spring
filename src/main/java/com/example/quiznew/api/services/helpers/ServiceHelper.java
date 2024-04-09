@@ -2,13 +2,11 @@ package com.example.quiznew.api.services.helpers;
 
 import com.example.quiznew.api.exceptions.BadRequestException;
 import com.example.quiznew.api.exceptions.NotFoundException;
-import com.example.quiznew.store.entities.Answer;
-import com.example.quiznew.store.entities.QuestionCategories;
-import com.example.quiznew.store.entities.Question;
-import com.example.quiznew.store.entities.Quiz;
+import com.example.quiznew.store.entities.*;
 import com.example.quiznew.store.repositories.AnswerRepository;
 import com.example.quiznew.store.repositories.QuestionRepository;
 import com.example.quiznew.store.repositories.QuizRepository;
+import com.example.quiznew.store.repositories.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +28,8 @@ public class ServiceHelper {
     AnswerRepository answerRepository;
 
     QuizRepository quizRepository;
+
+    UserRepository userRepository;
 
     @Transactional
     public Question getQuestionByIdOrElseThrow(Long questionId) {
@@ -57,6 +57,16 @@ public class ServiceHelper {
                 findById(quizId)
                 .orElseThrow(() -> new NotFoundException(
                                 String.format("Quiz with id %s doesn't exists.", quizId)
+                        )
+                );
+    }
+
+    @Transactional
+    public User getUserByUsernameOrElseThrow(String username) {
+        return userRepository
+                .findByUsername(username)
+                .orElseThrow(() -> new BadRequestException(
+                                String.format("User with username %s was not found", username)
                         )
                 );
     }
@@ -108,6 +118,7 @@ public class ServiceHelper {
         return optionalQuestionCategory;
     }
 
+    @Transactional
     public void findDuplicatesInRequestAndThrow(List<Long> questionsId) {
         List<String> duplicates = questionsId
                 .stream()

@@ -8,7 +8,6 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,18 +15,17 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-@PreAuthorize("hasAuthority('TEACHER')")
-@RequestMapping("/quiz/app")
+@RequestMapping("/quiz/app/teacher/quizzes")
 public class QuizController {
 
     QuizServiceImpl quizService;
 
-    static final String CREATE_QUIZ = "/quizzes/create";
-    static final String EDIT_QUIZ_BY_ID = "/quizzes/edit/{quiz_id}";
-    static final String GET_QUIZ_BY_ID = "/quizzes/get/{quiz_id}";
-    static final String GET_ALL_QUIZZES = "/quizzes/get_all";
-    static final String DELETE_QUIZ_BY_ID = "/quizzes/delete/{quiz_id}";
-    static final String DELETE_ALL_QUIZZES = "/quizzes/delete_all";
+    static final String CREATE_QUIZ = "/create";
+    static final String EDIT_QUIZ_BY_ID = "/edit/{quiz_id}";
+    static final String GET_QUIZ_BY_ID = "/get/{quiz_id}";
+    static final String GET_ALL_QUIZZES = "/get_all";
+    static final String DELETE_QUIZ_BY_ID = "/delete/{quiz_id}";
+    static final String DELETE_ALL_QUIZZES = "/delete_all";
 
     @PostMapping(CREATE_QUIZ)
     public ResponseEntity<QuizDtoResponse> createQuiz(

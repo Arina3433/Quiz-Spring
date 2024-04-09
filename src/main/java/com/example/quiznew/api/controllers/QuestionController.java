@@ -6,7 +6,6 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,18 +14,17 @@ import java.util.Optional;
 @RestController
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-@PreAuthorize("hasAuthority('TEACHER')")
-@RequestMapping("/quiz/app")
+@RequestMapping("/quiz/app/teacher/questions")
 public class QuestionController {
 
     QuestionServiceImpl questionService;
 
-    static final String CREATE_QUESTION = "/questions/create";
-    static final String EDIT_QUESTION_BY_ID = "/questions/edit/{question_id}";
-    static final String GET_QUESTION_BY_ID = "/questions/get/{question_id}";
-    static final String GET_ALL_QUESTIONS_WITH_FILTER = "/questions/get_all";
-    static final String DELETE_QUESTION_BY_ID = "/questions/delete/{question_id}";
-    static final String DELETE_ALL_QUESTIONS = "/questions/delete_all";
+    static final String CREATE_QUESTION = "/create";
+    static final String EDIT_QUESTION_BY_ID = "/edit/{question_id}";
+    static final String GET_QUESTION_BY_ID = "get/{question_id}";
+    static final String GET_ALL_QUESTIONS_WITH_FILTER = "/get_all";
+    static final String DELETE_QUESTION_BY_ID = "/delete/{question_id}";
+    static final String DELETE_ALL_QUESTIONS = "/delete_all";
 
     @PostMapping(CREATE_QUESTION)
     public ResponseEntity<QuestionDto> createQuestion(

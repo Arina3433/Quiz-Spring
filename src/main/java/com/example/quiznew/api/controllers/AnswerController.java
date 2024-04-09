@@ -7,7 +7,6 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -15,16 +14,15 @@ import java.util.Optional;
 @RestController
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-@PreAuthorize("hasAuthority('TEACHER')")
-@RequestMapping("/quiz/app")
+@RequestMapping("/quiz/app/teacher/questions")
 public class AnswerController {
 
     AnswerServiceImpl answerService;
 
-    static final String CREATE_ANSWER = "/questions/{question_id}/answers/create";
-    static final String EDIT_ANSWER_BY_ID = "/questions/answers/edit/{answer_id}";
-    static final String DELETE_ANSWER_BY_ID = "/questions/answers/delete/{answer_id}";
-    static final String DELETE_ALL_ANSWERS_BY_QUESTION_ID = "/questions/answers/delete_all/{question_id}";
+    static final String CREATE_ANSWER = "/{question_id}/answers/create";
+    static final String EDIT_ANSWER_BY_ID = "/answers/edit/{answer_id}";
+    static final String DELETE_ANSWER_BY_ID = "/answers/delete/{answer_id}";
+    static final String DELETE_ALL_ANSWERS_BY_QUESTION_ID = "/answers/delete_all/{question_id}";
 
     @Transactional
     @PostMapping(CREATE_ANSWER)
