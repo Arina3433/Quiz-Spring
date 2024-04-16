@@ -26,7 +26,6 @@ public class Question {
     String questionText;
 
     @Enumerated(EnumType.STRING)
-    // Хранит enum в виде строки
     QuestionCategories questionCategories;
 
     @OneToMany(cascade = CascadeType.ALL)
