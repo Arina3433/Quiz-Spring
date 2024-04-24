@@ -3,10 +3,7 @@ package com.example.quiznew.api.services.helper;
 import com.example.quiznew.api.exceptions.BadRequestException;
 import com.example.quiznew.api.exceptions.NotFoundException;
 import com.example.quiznew.store.entities.*;
-import com.example.quiznew.store.repositories.AnswerRepository;
-import com.example.quiznew.store.repositories.QuestionRepository;
-import com.example.quiznew.store.repositories.QuizRepository;
-import com.example.quiznew.store.repositories.UserRepository;
+import com.example.quiznew.store.repositories.*;
 import jakarta.transaction.Transactional;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +24,8 @@ public class ServiceHelper {
     AnswerRepository answerRepository;
 
     QuizRepository quizRepository;
+
+    StudentStatisticRepository studentStatisticRepository;
 
     UserRepository userRepository;
 
@@ -65,7 +64,53 @@ public class ServiceHelper {
         return userRepository
                 .findByUsername(username)
                 .orElseThrow(() -> new BadRequestException(
-                                String.format("User with username %s was not found", username)
+                                String.format("User with username %s was not found.", username)
+                        )
+                );
+    }
+
+    @Transactional
+    public List<StudentStatistic> getStudentStatisticsOrElseThrow() {
+
+        List<StudentStatistic> studentStatisticList = studentStatisticRepository.findAll();
+
+        if (studentStatisticList.isEmpty()) {
+            throw new NotFoundException("Statistics were not found.");
+        }
+
+        return studentStatisticList;
+    }
+
+    @Transactional
+    public List<StudentStatistic> getStudentStatisticsByStudentNameOrElseThrow(String studentName) {
+
+        return studentStatisticRepository
+                .findStudentStatisticByStudentName(studentName)
+                .filter(list -> !list.isEmpty())
+                .orElseThrow(() -> new NotFoundException(
+                        String.format("Statistics for %s were not found.", studentName))
+                );
+    }
+
+    public List<StudentStatistic> getStudentStatisticsByQuizIdOrElseThrow(Long quizId) {
+
+        return studentStatisticRepository
+                .findStudentStatisticByQuizId(quizId)
+                .filter(list -> !list.isEmpty())
+                .orElseThrow(() -> new NotFoundException(
+                        String.format("Statistics on the quiz with id %s were not found.", quizId))
+                );
+    }
+
+    @Transactional
+    public List<StudentStatistic> getStudentStatisticsByStudentNameAndQuizIdOrElseThrow(
+            String studentName, Long quizId) {
+
+        return studentStatisticRepository
+                .findStudentStatisticByStudentNameAndQuizId(studentName, quizId)
+                .filter(list -> !list.isEmpty())
+                .orElseThrow(() -> new NotFoundException(
+                                String.format("Statistics on the quiz with id %s were not found.", quizId)
                         )
                 );
     }
@@ -161,13 +206,25 @@ public class ServiceHelper {
         if (!answersToUnacceptableQuestions.isEmpty()) {
 
             throw new BadRequestException(
-                    String.format("The following answers are not present in the quiz: %s",
+                    String.format("The following answers are not present in the quiz: %s.",
                             answersToUnacceptableQuestions.stream()
                                     .map(Object::toString)
                                     .collect(Collectors.joining(", "))
                     )
             );
         }
+    }
+
+    public Long getaLong(Optional<String> optionalQuizId) {
+        Long quizId = null;
+
+        if (optionalQuizId.filter(str -> !str.isBlank()).isPresent()) {
+            quizId = optionalQuizId
+                    .map(Long::parseLong)
+                    .orElseThrow(() -> new BadRequestException("Incorrect entry of the quiz id."));
+        }
+
+        return quizId;
     }
 
 }
