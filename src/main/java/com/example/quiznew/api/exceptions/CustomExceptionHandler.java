@@ -1,10 +1,10 @@
 package com.example.quiznew.api.exceptions;
 
 import lombok.extern.log4j.Log4j2;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 @Log4j2
@@ -17,17 +17,46 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 // какой тип исключения будет обрабатываться этим методом
 public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
+    // Обработчик для BadRequestException
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<Object> handleBadRequestException(BadRequestException ex) {
+
+        log.error("Bad request exception", ex);
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(ErrorDto.builder()
+                        .error("Bad Request")
+                        .errorDescription(ex.getMessage())
+                        .build());
+    }
+
+    // Обработчик для NotFoundException
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<Object> handleNotFoundException(NotFoundException ex) {
+
+        log.error("Not found exception", ex);
+
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(ErrorDto.builder()
+                        .error("Not Found")
+                        .errorDescription(ex.getMessage())
+                        .build());
+    }
+
+    // Обработчик для всех других типов исключений
     @ExceptionHandler(Exception.class)
-    // В данном случае перехватываются все подряд
-    public ResponseEntity<Object> exception(Exception ex, WebRequest request) throws Exception {
-        // Метод обработки исключений
+    public ResponseEntity<Object> handleOtherExceptions(Exception ex) {
 
         log.error("Exception during execution of application", ex);
-        // Информация об исключении с уровнем ERROR записывается в логгер с сообщением
 
-        return handleException(ex, request);
-        // Этот метод генерирует ResponseEntity<Object>, внутри него создается HttpHeaders headers,
-        // куда добавляется информация о том какая именно ошибка произошла
+        return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(ErrorDto.builder()
+                        .error("Internal Server Error")
+                        .errorDescription(ex.getMessage())
+                        .build());
     }
 
 }

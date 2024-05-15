@@ -1,5 +1,7 @@
 package com.example.quiznew.api.utils.auth;
 
+import com.example.quiznew.api.exceptions.CustomAccessDeniedHandler;
+import com.example.quiznew.api.exceptions.CustomAuthenticationEntryPoint;
 import com.example.quiznew.store.entities.UserRoles;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -42,6 +44,15 @@ public class SecurityConfig {
                                 .requestMatchers("/quiz/app/teacher/**").hasAnyAuthority(UserRoles.TEACHER.name())
                                 .requestMatchers("/quiz/app/student/**").hasAnyAuthority(UserRoles.STUDENT.name())
                 )
+                .exceptionHandling(exceptionHandling ->
+                        exceptionHandling
+                                .accessDeniedHandler(customAccessDeniedHandler())
+                                // Для обработки ситуаций, когда у пользователя отсутствуют необходимые права
+                                // доступа к определенному ресурсу
+                                .authenticationEntryPoint(customAuthenticationEntryPoint())
+                                // Обрабатывает исключения, связанные с аутентификацией пользователей.
+                                // (когда пользователь пытается получить доступ к защищенному ресурсу, но не был аутентифицирован)
+                )
                 .sessionManagement(
                         manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
@@ -69,6 +80,16 @@ public class SecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public CustomAccessDeniedHandler customAccessDeniedHandler(){
+        return new CustomAccessDeniedHandler();
+    }
+
+    @Bean
+    public CustomAuthenticationEntryPoint customAuthenticationEntryPoint(){
+        return new CustomAuthenticationEntryPoint();
     }
 
 }
