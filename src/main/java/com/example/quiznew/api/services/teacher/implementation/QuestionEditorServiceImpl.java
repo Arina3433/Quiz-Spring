@@ -163,7 +163,7 @@ public class QuestionEditorServiceImpl implements QuestionEditorService {
 
         questionRepository.deleteAll();
 
-        return "All is deleted";
+        return "All questions have been deleted";
     }
 
 }

@@ -40,18 +40,6 @@ public class AnswerEditorServiceImpl implements AnswerEditorService {
 
         Question question = serviceHelper.getQuestionByIdOrElseThrow(questionId);
 
-        question
-                .getAnswersList()
-                .stream()
-                .map(Answer::getAnswerText)
-                .filter(anotherAnswerText -> anotherAnswerText.equalsIgnoreCase(answerText))
-                .findAny()
-                .ifPresent(anotherAnswer -> {
-                            throw new BadRequestException(String.format(
-                                    "Answer %s already exist.", answerText));
-                        }
-                );
-
         Answer answer = answerRepository.saveAndFlush(
                 Answer.builder()
                         .answerText(answerText)

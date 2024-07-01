@@ -2,7 +2,6 @@ package com.example.quiznew.api.services.student.implementation;
 
 import com.example.quiznew.api.converters.student.StudentStatisticConverter;
 import com.example.quiznew.api.dtos.student.StudentStatisticDto;
-import com.example.quiznew.api.exceptions.BadRequestException;
 import com.example.quiznew.api.services.helper.ServiceHelper;
 import com.example.quiznew.api.services.student.StudentStatisticForStudentService;
 import com.example.quiznew.store.entities.StudentStatistic;

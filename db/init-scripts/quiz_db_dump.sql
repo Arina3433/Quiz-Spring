@@ -1,3 +1,4 @@
+--
 -- PostgreSQL database dump
 --
 
@@ -190,10 +191,19 @@ ALTER TABLE ONLY public.student_statistic ALTER COLUMN id SET DEFAULT nextval('p
 --
 
 COPY public.answers (id, answer_text, is_correct, question_id) FROM stdin;
-17	44	f	42
-18	43	t	42
-19	how	t	44
-20	wow	f	44
+23	2	t	50
+24	4	f	50
+25	1	f	50
+26	30	f	51
+27	40	t	51
+28	25	f	51
+32	16	f	52
+33	25	t	52
+34	36	f	52
+35	Архимед	f	53
+36	Роберт Броун	t	53
+37	Вольтметр	t	54
+38	Амперметр	f	54
 \.
 
 
@@ -202,11 +212,11 @@ COPY public.answers (id, answer_text, is_correct, question_id) FROM stdin;
 --
 
 COPY public.questions (id, question_categories, question_text) FROM stdin;
-44	MATH	C?
-42	BIOLOGY	A?
-46	COMMON	фигня всякая
-47	MATH	математика
-48	COMMON	птваота
+50	MATH	Вычислите: 4/2
+51	MATH	Вычислите: 50-10
+52	MATH	Вычислите: 5*5
+53	PHYSICS	Кто первый экспериментально обнаружил движение молекул?
+54	PHYSICS	Прибор для измерения напряжения - это?
 \.
 
 
@@ -215,9 +225,11 @@ COPY public.questions (id, question_categories, question_text) FROM stdin;
 --
 
 COPY public.questions_in_quiz (quiz_id, question_id) FROM stdin;
-27	44
-27	42
-27	46
+28	50
+28	51
+28	52
+29	53
+29	54
 \.
 
 
@@ -226,7 +238,8 @@ COPY public.questions_in_quiz (quiz_id, question_id) FROM stdin;
 --
 
 COPY public.quizzes (id, quiz_name) FROM stdin;
-27	Math
+28	Math
+29	Physics
 \.
 
 
@@ -235,11 +248,10 @@ COPY public.quizzes (id, quiz_name) FROM stdin;
 --
 
 COPY public.student_statistic (id, date_of_completion_quiz, quiz_id, student_name, student_result) FROM stdin;
-2	2024-04-21 13:44:06.952	22	student	66,67%
-3	2024-04-24 13:31:11.378	22	student	33,33%
-4	2024-04-25 01:27:41.702	22	student3	33,33%
-5	2024-04-25 01:27:50.011	22	student3	66,67%
-6	2024-04-25 01:35:13.648	23	student	100%
+7	2024-07-01 13:05:14.206	28	student1	66,67%
+8	2024-07-01 13:05:57.725	29	student1	100%
+9	2024-07-01 13:06:33.962	29	student2	50%
+10	2024-07-01 13:07:15.601	28	student2	66,67%
 \.
 
 
@@ -248,9 +260,9 @@ COPY public.student_statistic (id, date_of_completion_quiz, quiz_id, student_nam
 --
 
 COPY public.users (id, password, user_roles, username) FROM stdin;
-4	$2a$10$I0pWMQRCga8zIyFA6G9i9eZP8rbtLTelFmTVoI1705C.PxFvrd.qq	TEACHER	teacher
-5	$2a$10$1eo4wkdJfXXeC3khhdPYjObgkTtUzBHPlcuYa5UBxXJVsJtgAA/Te	STUDENT	student
-6	$2a$10$PEIOat3CTE7XrYhAWcGT4OXL.RYcNlOFWnkAZzxnjtaIEf0JaB2la	STUDENT	student3
+7	$2a$10$XpZCEcsPkwcUK5aGL3jgquhPUnkDnJUJBnZU62u6fUraKwJEqXWLC	TEACHER	teacher
+8	$2a$10$qCaruqi6MFbkHBtOolaaqu7uKxV3B4UVbk7dPAW44SH8JZtqcfjH2	STUDENT	student1
+9	$2a$10$9/YEEcYtcpf2eJ9W6KaFnuaw5ZzcXqV3jSdzDaq3l0H1Qdu8KHAbS	STUDENT	student2
 \.
 
 
@@ -258,35 +270,35 @@ COPY public.users (id, password, user_roles, username) FROM stdin;
 -- Name: answers_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.answers_seq', 22, true);
+SELECT pg_catalog.setval('public.answers_seq', 38, true);
 
 
 --
 -- Name: questions_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.questions_seq', 48, true);
+SELECT pg_catalog.setval('public.questions_seq', 54, true);
 
 
 --
 -- Name: quizzes_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.quizzes_seq', 27, true);
+SELECT pg_catalog.setval('public.quizzes_seq', 29, true);
 
 
 --
 -- Name: student_statistic_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.student_statistic_id_seq', 6, true);
+SELECT pg_catalog.setval('public.student_statistic_id_seq', 10, true);
 
 
 --
 -- Name: users_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.users_seq', 6, true);
+SELECT pg_catalog.setval('public.users_seq', 9, true);
 
 
 --

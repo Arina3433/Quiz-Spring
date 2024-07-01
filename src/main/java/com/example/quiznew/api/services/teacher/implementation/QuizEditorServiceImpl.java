@@ -223,7 +223,7 @@ public class QuizEditorServiceImpl implements QuizEditorService {
 
         quizRepository.deleteAll();
 
-        return "All is deleted";
+        return "All quizzes have been deleted";
     }
 
 }
