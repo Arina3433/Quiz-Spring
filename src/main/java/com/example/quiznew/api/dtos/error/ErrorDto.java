@@ -1,4 +1,4 @@
-package com.example.quiznew.api.dtos.auth;
+package com.example.quiznew.api.dtos.error;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
@@ -9,13 +9,11 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class SignUpRequestDto {
+public class ErrorDto {
 
-    String username;
+    String error;
 
-    String password;
-
-    @JsonProperty("user_role")
-    String userRoles;
+    @JsonProperty("error_description")
+    String errorDescription;
 
 }

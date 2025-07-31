@@ -1,5 +1,6 @@
 package com.example.quiznew.api.exceptions;
 
+import com.example.quiznew.api.dtos.error.ErrorDto;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,13 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 @Log4j2
-// Автоматически внедряет Logger
-// Логгер - это инструмент для записи информации о работе приложения
 @ControllerAdvice
-// Используется для создания глобального контроллера обработки исключений. Класс, помеченный этой аннотацией,
-// становится централизованным местом для обработки исключений, которые могут возникнуть в различных контроллерах приложения.
-// Методы в таком классе, обычно помечаются аннотацией @ExceptionHandler, которая указывает,
-// какой тип исключения будет обрабатываться этим методом
 public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
     // Обработчик для BadRequestException
@@ -31,7 +26,6 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
                         .build());
     }
 
-    // Обработчик для NotFoundException
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<Object> handleNotFoundException(NotFoundException ex) {
 
@@ -45,7 +39,6 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
                         .build());
     }
 
-    // Обработчик для всех других типов исключений
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleOtherExceptions(Exception ex) {
 
@@ -58,5 +51,4 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
                         .errorDescription(ex.getMessage())
                         .build());
     }
-
 }

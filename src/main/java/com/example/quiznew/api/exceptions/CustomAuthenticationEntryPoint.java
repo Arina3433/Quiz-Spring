@@ -1,5 +1,6 @@
 package com.example.quiznew.api.exceptions;
 
+import com.example.quiznew.api.dtos.error.ErrorDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -19,7 +20,6 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
                          HttpServletResponse response,
                          AuthenticationException exception) throws IOException, ServletException {
         log.error(exception.getMessage(), exception);
-        // Логгирование ошибок аутентификации
 
         ErrorDto errorDto = ErrorDto.builder()
                 .error("Unauthorized")

@@ -1,5 +1,6 @@
 package com.example.quiznew.api.exceptions;
 
+import com.example.quiznew.api.dtos.error.ErrorDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -31,5 +32,4 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.getWriter().write(new ObjectMapper().writeValueAsString(errorDto));
     }
-
 }
