@@ -5,7 +5,10 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
          https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.15.xsd">
 
-    <include file="db/changelog/changes/001-create-user-table.xml"/>
-    <include file="db/changelog/changes/002-remove-autogen-userid.xml"/>
+<changeSet id="002-remove-autogen-userid" author="arina">
+    <dropDefaultValue tableName="users" columnName="user_id"/>
+
+    <dropSequence sequenceName="users_seq"/>
+</changeSet>
 
 </databaseChangeLog>

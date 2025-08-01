@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -20,12 +21,14 @@ public class UserRegistrationListenerService {
     private final UserConverter userConverter;
 
     @RabbitListener(queues = RabbitConfig.USER_REGISTER_QUEUE, ackMode = "MANUAL")
+    @Transactional
     public void handleUserRegistered(UserRegisteredEventDto eventDto, Message message, Channel channel) {
         try {
-            log.info("Получено событие регистрации пользователя: {}", eventDto.username());
+            log.info("Получено событие регистрации пользователя: {}", eventDto.getUsername());
 
             User user = userConverter.toUser(eventDto);
             userRepository.save(user);
+            log.info("Пользователь успешно сохранен: {}", user.getUsername());
 
             channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
         } catch (Exception e) {
