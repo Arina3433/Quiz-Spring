@@ -1,6 +1,6 @@
 package com.example.quiznew.store.repositories;
 
-import com.example.quiznew.store.entities.User;
+import com.example.quiznew.store.entities.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

@@ -2,10 +2,9 @@ package com.example.quiznew.api.exceptions;
 
 import com.example.quiznew.api.dtos.error.ErrorDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
@@ -13,19 +12,18 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 
 import java.io.IOException;
 
-@Log4j2
+@Slf4j
 public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 
     @Override
     public void handle(HttpServletRequest request,
                        HttpServletResponse response,
-                       AccessDeniedException exception) throws IOException, ServletException {
+                       AccessDeniedException exception) throws IOException {
         log.error(exception.getMessage(), exception);
-        // // Логгировние ошибок доступа
 
         ErrorDto errorDto = ErrorDto.builder()
                 .error("AccessDenied")
-                .errorDescription("Insufficient permissions to access the requested resource")
+                .errorDescription("Отказано в доступе к данному ресурсу")
                 .build();
 
         response.setStatus(HttpStatus.FORBIDDEN.value());

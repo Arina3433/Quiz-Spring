@@ -3,6 +3,7 @@ package com.example.quiznew.api.services.helper;
 import com.example.quiznew.api.exceptions.BadRequestException;
 import com.example.quiznew.api.exceptions.NotFoundException;
 import com.example.quiznew.store.entities.*;
+import com.example.quiznew.store.entities.user.User;
 import com.example.quiznew.store.repositories.*;
 import jakarta.transaction.Transactional;
 import lombok.AccessLevel;
